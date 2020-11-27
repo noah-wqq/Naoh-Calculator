@@ -65,6 +65,7 @@ class Window:
         self.temp_widgets = [box1, box2, lab1, lab2, calc_button]
 
     def calc_button_cmd(self, box1, box2):
+        global result_text # this is made global so the result label can be stored after the function stops executing
         try:
             val1 = float(box1.get())
             val2 = float(box2.get())
@@ -82,6 +83,13 @@ class Window:
                 check = int(res)
                 if res == check:
                     res = check
+                    
+                try: # checks if the result label is in the temp; deletes old label before new label is created
+                    if result_text in self.temp_widgets:
+                        result_text.destroy()
+                except NameError:
+                    # exception if result text dosen't exist yet 
+                    pass
 
                 result_text = Label(self.root, text=f"Result -> {res}")
                 result_text.place(x=15, y=180)
